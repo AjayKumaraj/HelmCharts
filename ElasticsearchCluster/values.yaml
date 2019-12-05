@@ -1,0 +1,30 @@
+config:
+  namespace: es-cluster
+  image_name: docker.elastic.co/elasticsearch/elasticsearch:6.8.5
+  service_type: Cluster_IP
+  cluster_name: mycluster
+
+master:
+  name: master
+  discovery_zen_minimum_master_nodes: 2
+  discovery_zen_ping_unicast_hosts: "node1-service,node2-service"
+  network_publish_host: master-service
+  xpack_security_enabled: "false"
+
+node1:
+  name: node1
+  discovery_zen_minimum_master_nodes: 2
+  discovery_zen_ping_unicast_hosts: "node2-service,master-service"
+  network_publish_host: node1-service
+  xpack_security_enabled: "false"
+
+node2:
+  name: node2
+  discovery_zen_minimum_master_nodes: 2
+  discovery_zen_ping_unicast_hosts: "node1-service,master-service"
+  network_publish_host: node2-service
+  xpack_security_enabled: "false"
+
+
+
+  

@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.master.name }}
+  namespace: {{ .Values.config.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.master.name }}-es
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.master.name }}-es
+    spec:
+      containers:
+      - name: {{ .Values.master.name }}
+        image: {{ .Values.config.image_name }}
+        env:
+        - name: cluster.name
+          value: {{ .Values.config.cluster_name }}
+        - name: network.publish_host
+          value: {{ .Values.master.network_publish_host }}
+        - name:  xpack.security.enabled
+          value:  {{ .Values.master.xpack_security_enabled }}
+        - name: discovery.zen.minimum_master_nodes
+          value: {{ .Values.master.discovery_zen_minimum_master_nodes }}
+        - name: discovery.zen.ping.unicast.hosts
+          value: {{ .Values.master.discovery_zen_ping_unicast_hosts }}
+        ports:
+        - containerPort: 9200
+
+------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.node1.name }}
+  namespace: {{ .Values.config.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.node1.name }}-es
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.node1.name }}-es
+    spec:
+      containers:
+      - name: {{ .Values.node1.name }}
+        image: {{ .Values.config.image_name }}
+        env:
+        - name: cluster.name
+          value: {{ .Values.config.cluster_name }}
+        - name: network.publish_host
+          value: {{ .Values.node1.network_publish_host }}
+        - name:  xpack.security.enabled
+          value:  {{ .Values.node1.xpack_security_enabled }}
+        - name: discovery.zen.minimum_master_nodes
+          value: {{ .Values.node1.discovery_zen_minimum_master_nodes }}
+        - name: discovery.zen.ping.unicast.hosts
+          value: {{ .Values.node1.discovery_zen_ping_unicast_hosts }}
+        ports:
+        - containerPort: 9200
+
+---------------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.node2.name }}
+  namespace: {{ .Values.config.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.node2.name }}-es
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.node2.name }}-es
+    spec:
+      containers:
+      - name: {{ .Values.node1.name }}
+        image: {{ .Values.config.image_name }}
+        env:
+        - name: cluster.name
+          value: {{ .Values.config.cluster_name }}
+        - name: network.publish_host
+          value: {{ .Values.node2.network_publish_host }}
+        - name:  xpack.security.enabled
+          value:  {{ .Values.node2.xpack_security_enabled }}
+        - name: discovery.zen.minimum_master_nodes
+          value: {{ .Values.node2.discovery_zen_minimum_master_nodes }}
+        - name: discovery.zen.ping.unicast.hosts
+          value: {{ .Values.node2.discovery_zen_ping_unicast_hosts }}
+        ports:
+        - containerPort: 9200

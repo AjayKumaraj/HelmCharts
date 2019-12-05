@@ -1,0 +1,41 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.master.name }}-service
+  namespace: {{ .Values.config.namespace }}
+spec:
+  selector:
+    app: {{ .Values.master.name }}-es
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 9200
+---------------
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.node1.name }}-service
+  namespace: {{ .Values.config.namespace }}
+spec:
+  selector:
+    app: {{ .Values.node1.name }}-es
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 9200
+--------------------
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.node2.name }}-service
+  namespace: {{ .Values.config.namespace }}
+spec:
+  selector:
+    app: {{ .Values.node2.name }}-es
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 9200
